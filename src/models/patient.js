@@ -15,12 +15,11 @@ const Patient = connection.define('patients', {
   },
 
   gender: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: Sequelize.ENUM('M', 'F'),
   },
 
   date_of_birth: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: false,
   },
 
@@ -29,9 +28,8 @@ const Patient = connection.define('patients', {
     allowNull: false,
   },
 
-  telephone: {
-    type: Sequelize.STRING(14), // (xx)yyyyy-yyyy
-    allowNull: false,
+  phone_number: {
+    type: Sequelize.STRING
   },
 
   emergency_contact: {
@@ -39,7 +37,7 @@ const Patient = connection.define('patients', {
     allowNull: false,
   },
 
-  alergies: {
+  allergies: {
     type: Sequelize.STRING,
   },
 
@@ -52,12 +50,12 @@ const Patient = connection.define('patients', {
   },
 
   service_status: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: Sequelize.ENUM('AGUARDANDO ATENDIMENTO', 'EM ATENDIMENTO', 'ATENDIDO', 'NÃO ATENDIDO'),
   },
 
   total_services: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 });
 
