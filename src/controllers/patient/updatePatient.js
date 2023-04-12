@@ -1,17 +1,15 @@
 const Patient = require('../../models/patient');
 
-async function createPatient (req, res) {
+async function updatePatient (req, res) {
 
   try {
     const cpf_numb = req.body.cpf.replace(/\D/g,'')
     const phone_numb = req.body.phone_number.replace(/\D/g,'')
 
-    const patientInDatabase = await Patient.findOne({ where:
-      { cpf: cpf_numb }
-    })
+    const patientInDatabase = await Patient.findByPk(req.params.id)
 
-    if (patientInDatabase) {
-      return res.status(409).json({message: `CPF ${req.body.cpf} já está cadastrado.`})
+    if (!patientInDatabase) {
+      return res.status(404).json({message: `ID ${req.params.id} não encontrado.`})
     } else if (
       !req.body.full_name ||
       !req.body.date_of_birth ||
@@ -21,7 +19,7 @@ async function createPatient (req, res) {
         return res.status(400).json({message: "Os campos 'Full Name', 'Date of Birth', 'CPF' e 'Emergency contact' são obrigatórios."})
     }
 
-    const patientData = {
+    patientInDatabase.set({
       full_name: req.body.full_name,
       gender: req.body.gender,
       date_of_birth: req.body.date_of_birth,
@@ -31,10 +29,10 @@ async function createPatient (req, res) {
       allergies: req.body.allergies,
       special_cares: req.body.special_cares,
       health_insurance: req.body.health_insurance
-    }
+    })
 
-    const newPatient = await Patient.create(patientData);
-    res.status(201).json(newPatient);
+    await patientInDatabase.save()
+    res.status(200).json(patientInDatabase)
 
   } catch (error) {
     console.log(error)
@@ -42,4 +40,4 @@ async function createPatient (req, res) {
   }
 }
 
-module.exports = createPatient;
+module.exports = updatePatient;
