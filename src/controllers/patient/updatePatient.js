@@ -20,15 +20,15 @@ async function updatePatient (req, res) {
     }
 
     patientInDatabase.set({
-      full_name: req.body.full_name,
-      gender: req.body.gender,
-      date_of_birth: req.body.date_of_birth,
-      cpf: cpf_numb,
-      phone_number: phone_numb,
-      emergency_contact: req.body.emergency_contact,
-      allergies: req.body.allergies,
-      special_cares: req.body.special_cares,
-      health_insurance: req.body.health_insurance
+      full_name: req.body.full_name || patientInDatabase.full_name,
+      gender: req.body.gender || patientInDatabase.gender,
+      date_of_birth: req.body.date_of_birth || patientInDatabase.date_of_birth,
+      cpf: cpf_numb || patientInDatabase.cpf,
+      phone_number: phone_numb || patientInDatabase.phone_number,
+      emergency_contact: req.body.emergency_contact || patientInDatabase.emergency_contact,
+      allergies: req.body.allergies || patientInDatabase.allergies,
+      special_cares: req.body.special_cares || patientInDatabase.special_cares,
+      health_insurance: req.body.health_insurance || patientInDatabase.health_insurance
     })
 
     await patientInDatabase.save()
