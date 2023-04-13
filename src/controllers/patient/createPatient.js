@@ -2,6 +2,8 @@ const Patient = require('../../models/patient');
 
 async function createPatient (req, res) {
 
+  const genderOptions = ['M', 'F'];
+
   try {
     const cpf_numb = req.body.cpf.replace(/\D/g,'')
     const phone_numb = req.body.phone_number.replace(/\D/g,'')
@@ -12,6 +14,7 @@ async function createPatient (req, res) {
 
     if (patientInDatabase) {
       return res.status(409).json({message: `CPF ${req.body.cpf} já está cadastrado.`})
+
     } else if (
       !req.body.full_name ||
       !req.body.date_of_birth ||
@@ -19,6 +22,9 @@ async function createPatient (req, res) {
       !req.body.emergency_contact
       ) {
         return res.status(400).json({message: "Os campos 'Full Name', 'Date of Birth', 'CPF' e 'Emergency contact' são obrigatórios."})
+
+    } else if (!genderOptions.includes(req.body.gender.toUpperCase())) {
+      return res.status(400).json({message: "O campo 'Gender' deve ser 'M' ou 'F'."})
     }
 
     const patientData = {
