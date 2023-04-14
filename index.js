@@ -25,6 +25,7 @@ const createNurse = require('./src/controllers/nurse/createNurse');
 const updateNurse = require('./src/controllers/nurse/updateNurse');
 const findNurse = require('./src/controllers/nurse/findNurse');
 const findNurseById = require('./src/controllers/nurse/findNurseById');
+const deleteNurse = require('./src/controllers/nurse/deleteNurse');
 
 app.use(express.json());
 
@@ -46,6 +47,7 @@ app.post('/api/nurses', createNurse);
 app.put('/api/nurses/:id', updateNurse);
 app.get('/api/nurses', findNurse);
 app.get('/api/nurses/:id', findNurseById);
+app.delete('/api/nurses/:id', deleteNurse);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {console.log(`App listenig on PORT ${PORT}`)});
