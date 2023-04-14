@@ -15,6 +15,7 @@ const findPatientById = require('./src/controllers/patient/findPatientById');
 const deletePatient = require('./src/controllers/patient/deletePatient');
 
 const createDoctor = require('./src/controllers/doctor/createDoctor');
+const updateDoctor = require('./src/controllers/doctor/updateDoctor');
 
 app.use(express.json());
 
@@ -26,6 +27,7 @@ app.get('/api/patients/:id', findPatientById);
 app.delete('/api/patients/:id', deletePatient);
 
 app.post('/api/doctors', createDoctor);
+app.put('/api/doctors/:id', updateDoctor);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {console.log(`App listenig on PORT ${PORT}`)});
