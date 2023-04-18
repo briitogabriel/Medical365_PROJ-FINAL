@@ -14,8 +14,9 @@ async function findPatient (req, res) {
       const indexPosition = statusList.indexOf(statusParam.toUpperCase())
       const statusToFilter = databaseStatus[indexPosition]
 
-      const findFilteredPatients = await Patient.findAll({ where:
-        { service_status: statusToFilter }
+      const findFilteredPatients = await Patient.findAll({
+        where: { service_status: statusToFilter },
+        order: ['id']
       });
       if (findFilteredPatients.length == 0) {
         return res.status(404).json({message: `Nenhum paciente com status '${statusToFilter}' encontrado.`})
@@ -23,7 +24,7 @@ async function findPatient (req, res) {
       return res.status(200).json(findFilteredPatients);
     }
 
-    const allPatients = await Patient.findAll();
+    const allPatients = await Patient.findAll({ order: ['id'] });
     res.status(200).json(allPatients);
 
   } catch (error) {

@@ -4,7 +4,7 @@ async function findNurse (_, res) {
 
   try {
 
-    const allNurses = await Nurse.findAll();
+    const allNurses = await Nurse.findAll({ order: ['id'] });
     res.status(200).json(allNurses);
 
   } catch (error) {

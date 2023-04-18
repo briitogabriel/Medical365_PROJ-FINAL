@@ -4,7 +4,7 @@ async function findService (_, res) {
 
   try {
 
-    const allServices = await Service.findAll();
+    const allServices = await Service.findAll({ order: ['id'] });
     res.status(200).json(allServices);
 
   } catch (error) {

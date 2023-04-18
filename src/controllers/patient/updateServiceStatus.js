@@ -5,24 +5,17 @@ async function updateServiceStatus (req, res) {
   try {
 
     const patientInDatabase = await Patient.findByPk(req.params.id)
-    const currentStatus = patientInDatabase.service_status
 
     if (!patientInDatabase) {
       return res.status(404).json({message: `ID ${req.params.id} não encontrado.`})
     } else if (
-      !['AGUARDANDO ATENDIMENTO', 'EM ATENDIMENTO', 'ATENDIDO', 'NÃO ATENDIDO'].includes(req.body.service_status)
+      !['AGUARDANDO ATENDIMENTO', 'EM ATENDIMENTO', 'NÃO ATENDIDO'].includes(req.body.service_status)
       ) {
-        return res.status(400).json({message: "Informe um status válido ('AGUARDANDO ATENDIMENTO', 'EM ATENDIMENTO', 'ATENDIDO', 'NÃO ATENDIDO')."})
-    }
-
-    let total_services = patientInDatabase.total_services
-    if (currentStatus == 'EM ATENDIMENTO' && req.body.service_status == 'ATENDIDO') {
-      total_services = total_services +1
+        return res.status(400).json({message: "Informe um status válido ('AGUARDANDO ATENDIMENTO', 'EM ATENDIMENTO', 'NÃO ATENDIDO') ou acesse a rota 'POST/api/services' para registrar um atendimento efetuado."})
     }
 
     patientInDatabase.set({
-      service_status: req.body.service_status,
-      total_services: total_services
+      service_status: req.body.service_status
     })
 
     await patientInDatabase.save()
