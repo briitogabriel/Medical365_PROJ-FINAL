@@ -20,6 +20,8 @@ async function createService (req, res) {
 
     } else if (!patientInDatabase) {
       return res.status(404).json({message: `Paciente não encontrado.`})
+    } else if (doctorInDatabase.system_status === 'Inativo') {
+      return res.status(404).json({message: `Médico inativo, selecione um ID ativo no sistema.`})
     }
 
     let doctor_services = doctorInDatabase.total_services + 1;
