@@ -3,8 +3,10 @@ const Patient = require('../../models/patient');
 async function updatePatient (req, res) {
 
   try {
+    if (!req.body.cpf) {
+      return res.status(400).json({message: "Informe um CPF válido."})
+    }
     const cpf_numb = req.body.cpf.replace(/\D/g,'')
-    const phone_numb = req.body.phone_number.replace(/\D/g,'')
 
     const patientInDatabase = await Patient.findByPk(req.params.id)
 
@@ -18,6 +20,7 @@ async function updatePatient (req, res) {
       ) {
         return res.status(400).json({message: "Os campos 'Full Name', 'Date of Birth', 'CPF' e 'Emergency contact' são obrigatórios."})
     }
+    const phone_numb = req.body.phone_number.replace(/\D/g,'')
 
     patientInDatabase.set({
       full_name: req.body.full_name || patientInDatabase.full_name,

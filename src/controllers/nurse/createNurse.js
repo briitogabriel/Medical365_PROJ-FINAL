@@ -5,9 +5,11 @@ async function createNurse (req, res) {
   const genderOptions = ['M', 'F'];
 
   try {
+    if (!req.body.cpf) {
+      return res.status(400).json({message: "Informe um CPF válido."})
+    }
     const cpf_numb = req.body.cpf.replace(/\D/g,'')
-    const phone_numb = req.body.phone_number.replace(/\D/g,'')
-
+    
     const nurseInDatabase = await Nurse.findOne({ where:
       { cpf: cpf_numb }
     })
@@ -26,8 +28,9 @@ async function createNurse (req, res) {
       } else if (!genderOptions.includes(req.body.gender.toUpperCase())) {
         return res.status(400).json({message: "O campo 'Gender' deve ser 'M' ou 'F'."})
       
-    }
-
+      }
+      const phone_numb = req.body.phone_number.replace(/\D/g,'')
+      
     const nurseData = {
       full_name: req.body.full_name,
       gender: req.body.gender,

@@ -6,9 +6,11 @@ async function createDoctor (req, res) {
   const specializationOptions = ['Clínico Geral', 'Anestesia', 'Dermatologia', 'Ginecologia', 'Neurologia', 'Pediatra', 'Psiquiatria', 'Ortopedia'];
 
   try {
+    if (!req.body.cpf) {
+      return res.status(400).json({message: "Informe um CPF válido."})
+    }
     const cpf_numb = req.body.cpf.replace(/\D/g,'')
-    const phone_numb = req.body.phone_number.replace(/\D/g,'')
-
+    
     const doctorInDatabase = await Doctor.findOne({ where:
       { cpf: cpf_numb }
     })
@@ -31,6 +33,7 @@ async function createDoctor (req, res) {
       } else if (!specializationOptions.includes(req.body.specialization)) {
         return res.status(400).json({message: "Especializações válidas: 'Clínico Geral', 'Anestesia', 'Dermatologia', 'Ginecologia', 'Neurologia', 'Pediatra', 'Psiquiatria', 'Ortopedia'."})
     }
+    const phone_numb = req.body.phone_number.replace(/\D/g,'')
 
     const doctorData = {
       full_name: req.body.full_name,
