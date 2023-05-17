@@ -8,7 +8,7 @@ const connection = new Sequelize({
   username: process.env.USERNAME_PG || 'admin',
   password: process.env.PASSWORD_PG || 'password',
   database: process.env.PORT_PG || 'databaseName',
-  port: process.env.DATABASE_NAME || 0000,
+  port: process.env.DATABASE_NAME || 3333,
   define: {
     timestamps: true,
     underscored: true,
